@@ -37,7 +37,7 @@ message RetrieveWalletResponse {
 }
 
 service Wallet {
-    rpc CreateWallet(CreateWalletRequest) returns (google.protobuf.Empty);
+    rpc CreateWallet(CreateWalletRequest) returns (CreateWalletResponse);
     rpc UpdateWallet(UpdateWalletRequest) returns (google.protobuf.Empty);
     rpc RetrieveWallet(RetrieveWalletRequest) returns (RetrieveWalletResponse);
 }

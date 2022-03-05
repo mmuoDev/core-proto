@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WalletClient interface {
-	CreateWallet(ctx context.Context, in *CreateWalletRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	CreateWallet(ctx context.Context, in *CreateWalletRequest, opts ...grpc.CallOption) (*CreateWalletResponse, error)
 	UpdateWallet(ctx context.Context, in *UpdateWalletRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	RetrieveWallet(ctx context.Context, in *RetrieveWalletRequest, opts ...grpc.CallOption) (*RetrieveWalletResponse, error)
 }
@@ -32,8 +32,8 @@ func NewWalletClient(cc grpc.ClientConnInterface) WalletClient {
 	return &walletClient{cc}
 }
 
-func (c *walletClient) CreateWallet(ctx context.Context, in *CreateWalletRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *walletClient) CreateWallet(ctx context.Context, in *CreateWalletRequest, opts ...grpc.CallOption) (*CreateWalletResponse, error) {
+	out := new(CreateWalletResponse)
 	err := c.cc.Invoke(ctx, "/wallet.Wallet/CreateWallet", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -63,7 +63,7 @@ func (c *walletClient) RetrieveWallet(ctx context.Context, in *RetrieveWalletReq
 // All implementations must embed UnimplementedWalletServer
 // for forward compatibility
 type WalletServer interface {
-	CreateWallet(context.Context, *CreateWalletRequest) (*emptypb.Empty, error)
+	CreateWallet(context.Context, *CreateWalletRequest) (*CreateWalletResponse, error)
 	UpdateWallet(context.Context, *UpdateWalletRequest) (*emptypb.Empty, error)
 	RetrieveWallet(context.Context, *RetrieveWalletRequest) (*RetrieveWalletResponse, error)
 	mustEmbedUnimplementedWalletServer()
@@ -73,7 +73,7 @@ type WalletServer interface {
 type UnimplementedWalletServer struct {
 }
 
-func (UnimplementedWalletServer) CreateWallet(context.Context, *CreateWalletRequest) (*emptypb.Empty, error) {
+func (UnimplementedWalletServer) CreateWallet(context.Context, *CreateWalletRequest) (*CreateWalletResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateWallet not implemented")
 }
 func (UnimplementedWalletServer) UpdateWallet(context.Context, *UpdateWalletRequest) (*emptypb.Empty, error) {
