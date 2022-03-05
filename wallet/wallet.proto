@@ -16,6 +16,10 @@ message CreateWalletRequest {
     int32 current_balance = 3;
 }
 
+message CreateWalletResponse {
+    int64 id = 1;
+}
+
 message RetrieveWalletRequest {
     int32 account_id = 1;
 }
